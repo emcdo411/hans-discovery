@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hans Discovery | Agentic Operational Intelligence Brief</title>
+  <style>
+    :root {
+      --black: #050505;
+      --charcoal: #121212;
+      --graphite: #202020;
+      --yellow: #ffd400;
+      --gold: #f5a400;
+      --amber: #ffb000;
+      --white: #ffffff;
+      --muted: #c7c7c7;
+      --danger: #ff3b30;
+      --green: #36d399;
+      --panel: rgba(15, 15, 15, 0.82);
+      --line: rgba(255, 212, 0, 0.42);
+      --shadow: 0 22px 60px rgba(0, 0, 0, 0.48);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", "Arial Black", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 82% 10%, rgba(255, 212, 0, 0.32), transparent 28%),
+        radial-gradient(circle at 18% 88%, rgba(245, 164, 0, 0.26), transparent 30%),
+        linear-gradient(135deg, #ffd400 0%, #c98a00 18%, #171717 44%, #050505 100%);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(255,255,255,.04) 1px, transparent 1px),
+        repeating-linear-gradient(-18deg, rgba(255,212,0,.10) 0 3px, transparent 3px 23px);
+      background-size: 62px 62px, 62px 62px, auto;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.85), rgba(0,0,0,.28));
+      z-index: 0;
+    }
+
+    body::after {
+      content: "SIGNAL → AWARENESS → DECISION → CORRECTION";
+      position: fixed;
+      left: -9vw;
+      bottom: 8vh;
+      font-size: clamp(52px, 9vw, 132px);
+      line-height: .85;
+      letter-spacing: -0.07em;
+      color: rgba(255,255,255,.045);
+      transform: rotate(-8deg);
+      z-index: 0;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 34px 24px 70px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+
+    .badge, .license {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 2px solid var(--yellow);
+      background: rgba(0,0,0,.72);
+      color: var(--yellow);
+      padding: 10px 15px;
+      border-radius: 999px;
+      box-shadow: 0 0 0 4px rgba(255,212,0,.12), 0 15px 35px rgba(0,0,0,.4);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      font-size: 13px;
+    }
+
+    .license { color: white; border-color: rgba(255,255,255,.35); }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border: 3px solid var(--yellow);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,212,0,.22), transparent 28%),
+        linear-gradient(135deg, rgba(0,0,0,.94), rgba(20,20,20,.86));
+      box-shadow: var(--shadow), inset 0 0 60px rgba(255,212,0,.12);
+      border-radius: 34px;
+      padding: clamp(34px, 5vw, 62px);
+    }
+
+    .hero::before {
+      content: "OPERATIONAL LEAKAGE";
+      position: absolute;
+      right: -36px;
+      top: 26px;
+      font-size: clamp(38px, 8vw, 116px);
+      letter-spacing: -0.08em;
+      color: rgba(255,212,0,.08);
+      transform: rotate(6deg);
+      white-space: nowrap;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -120px;
+      bottom: -120px;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      border: 34px solid rgba(255,212,0,.16);
+      box-shadow: inset 0 0 60px rgba(255,212,0,.14), 0 0 80px rgba(255,212,0,.14);
+    }
+
+    .kicker {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      background: var(--yellow);
+      color: #050505;
+      padding: 8px 14px;
+      border-radius: 7px;
+      font-size: 14px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      box-shadow: 7px 7px 0 rgba(255,255,255,.12);
+    }
+
+    h1 {
+      position: relative;
+      z-index: 1;
+      font-size: clamp(52px, 8.8vw, 126px);
+      line-height: .78;
+      letter-spacing: -0.075em;
+      margin: 0 0 24px;
+      text-transform: uppercase;
+      text-shadow: 6px 6px 0 rgba(255,212,0,.82), 13px 13px 0 rgba(0,0,0,.72);
+      max-width: 1050px;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 1;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 800;
+      font-size: clamp(18px, 2.1vw, 25px);
+      line-height: 1.45;
+      max-width: 860px;
+      color: #f4f4f4;
+      margin: 0;
+    }
+
+    .hero-copy strong { color: var(--yellow); }
+
+    .metric-strip {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 34px;
+    }
+
+    .metric {
+      background: linear-gradient(180deg, rgba(255,212,0,.92), rgba(245,164,0,.82));
+      color: #050505;
+      border: 3px solid #050505;
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 8px 8px 0 rgba(0,0,0,.55);
+      min-height: 135px;
+    }
+
+    .metric .num {
+      font-size: clamp(34px, 4.4vw, 58px);
+      line-height: .9;
+      letter-spacing: -0.07em;
+      margin-bottom: 8px;
+    }
+
+    .metric .label {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 900;
+      font-size: 13px;
+      line-height: 1.25;
+      text-transform: uppercase;
+    }
+
+    section {
+      margin-top: 30px;
+      border: 1px solid rgba(255,212,0,.38);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      border-radius: 30px;
+      padding: clamp(28px, 4vw, 44px);
+      backdrop-filter: blur(10px);
+    }
+
+    h2 {
+      font-size: clamp(36px, 5.8vw, 78px);
+      line-height: .86;
+      letter-spacing: -0.07em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      text-shadow: 5px 5px 0 #000;
+      margin: 0 0 18px;
+    }
+
+    .section-lead {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 800;
+      font-size: 19px;
+      line-height: 1.55;
+      color: #ededed;
+      max-width: 940px;
+      margin: 0 0 26px;
+    }
+
+    .pain-grid, .use-grid, .roi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .pain-card, .use-card, .roi-card {
+      position: relative;
+      overflow: hidden;
+      border: 2px solid rgba(255,212,0,.42);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.03)),
+        rgba(0,0,0,.56);
+      border-radius: 24px;
+      padding: 23px;
+      min-height: 220px;
+      box-shadow: inset 0 0 28px rgba(255,212,0,.06);
+    }
+
+    .pain-card::after, .use-card::after, .roi-card::after {
+      content: "";
+      position: absolute;
+      right: -35px;
+      top: -35px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(255,212,0,.16);
+      border: 10px solid rgba(255,212,0,.08);
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      font-weight: 1000;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: var(--yellow);
+      color: #050505;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      font-size: 30px;
+      line-height: .95;
+      letter-spacing: -0.045em;
+      margin: 0 0 12px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .body-copy {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #d8d8d8;
+      font-size: 15px;
+      line-height: 1.55;
+      font-weight: 750;
+      margin: 0;
+    }
+
+    .body-copy strong { color: var(--yellow); }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .flow-step {
+      background: rgba(255,212,0,.9);
+      color: #050505;
+      border-radius: 22px;
+      padding: 20px;
+      border: 3px solid #000;
+      box-shadow: 7px 7px 0 rgba(0,0,0,.52);
+      text-align: center;
+    }
+
+    .flow-step .word {
+      font-size: 34px;
+      line-height: .92;
+      letter-spacing: -0.055em;
+      text-transform: uppercase;
+    }
+
+    .flow-step .small {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 900;
+      font-size: 12px;
+      margin-top: 8px;
+      text-transform: uppercase;
+    }
+
+    .scoreboard {
+      display: grid;
+      grid-template-columns: .92fr 1.08fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .score {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 4px solid var(--yellow);
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(255,212,0,.42), transparent 44%),
+        linear-gradient(180deg, #151515, #000);
+      min-height: 330px;
+      box-shadow: inset 0 0 45px rgba(255,212,0,.18), 9px 9px 0 rgba(255,212,0,.35);
+    }
+
+    .score .big {
+      font-size: clamp(95px, 13vw, 175px);
+      line-height: .82;
+      letter-spacing: -0.08em;
+      color: var(--yellow);
+      text-shadow: 8px 8px 0 #000;
+    }
+
+    .score .small-score {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 1000;
+      font-size: 16px;
+      text-transform: uppercase;
+      color: white;
+      margin-top: 10px;
+    }
+
+    .score-lines {
+      display: grid;
+      gap: 12px;
+    }
+
+    .score-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      border: 1px solid rgba(255,212,0,.42);
+      background: rgba(255,255,255,.07);
+      border-radius: 17px;
+      padding: 15px 17px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 950;
+      color: #f2f2f2;
+    }
+
+    .score-line span:last-child { color: var(--yellow); white-space: nowrap; }
+
+    .matrix {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 12px;
+      font-family: Arial, Helvetica, sans-serif;
+      margin-top: 10px;
+    }
+
+    .matrix th {
+      text-align: left;
+      padding: 14px 16px;
+      background: var(--yellow);
+      color: #050505;
+      text-transform: uppercase;
+      font-size: 13px;
+      font-weight: 1000;
+    }
+
+    .matrix th:first-child { border-radius: 14px 0 0 14px; }
+    .matrix th:last-child { border-radius: 0 14px 14px 0; }
+
+    .matrix td {
+      padding: 16px;
+      background: rgba(255,255,255,.08);
+      border-top: 1px solid rgba(255,212,0,.32);
+      border-bottom: 1px solid rgba(255,212,0,.32);
+      color: #e8e8e8;
+      font-weight: 800;
+      vertical-align: top;
+      line-height: 1.45;
+    }
+
+    .matrix td:first-child {
+      border-left: 1px solid rgba(255,212,0,.32);
+      border-radius: 16px 0 0 16px;
+      color: var(--yellow);
+      font-weight: 1000;
+    }
+
+    .matrix td:last-child {
+      border-right: 1px solid rgba(255,212,0,.32);
+      border-radius: 0 16px 16px 0;
+    }
+
+    .cta {
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 12%, rgba(255,212,0,.34), transparent 38%),
+        linear-gradient(135deg, #151515, #000);
+      border-width: 3px;
+    }
+
+    .cta h2 { font-size: clamp(44px, 7vw, 96px); }
+
+    .cta p {
+      max-width: 850px;
+      margin: 0 auto 24px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 900;
+      font-size: 20px;
+      line-height: 1.5;
+      color: #f1f1f1;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 16px 28px;
+      background: var(--yellow);
+      color: #050505;
+      text-decoration: none;
+      border-radius: 999px;
+      border: 3px solid #050505;
+      box-shadow: 8px 8px 0 rgba(255,255,255,.18);
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      font-size: 18px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 850;
+      color: rgba(255,255,255,.8);
+      font-size: 13px;
+    }
+
+    @media (max-width: 940px) {
+      .topbar { flex-direction: column; align-items: flex-start; }
+      .metric-strip, .pain-grid, .use-grid, .roi-grid, .flow, .scoreboard { grid-template-columns: 1fr; }
+      h1 { font-size: clamp(52px, 14vw, 86px); }
+      .matrix th:nth-child(3), .matrix td:nth-child(3) { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="topbar">
+      <div class="badge">Agentic AI · Operational Intelligence · Manufacturing Visibility</div>
+      <div class="license">Epoch Frameworks LLC · Behavioral Intelligence Research</div>
+    </div>
+
+    <header class="hero">
+      <div class="kicker">Executive Proof-of-Work Brief</div>
+      <h1>Stop losing margin in the blind spots.</h1>
+      <p class="hero-copy">
+        Most manufacturing companies do not have a production problem. They have a <strong>visibility problem</strong>. Agentic AI becomes valuable when it reduces the time between signal, awareness, decision, and operational correction.
+      </p>
+
+      <div class="metric-strip">
+        <div class="metric">
+          <div class="num">4x</div>
+          <div class="label">Operational signals most executives see too late</div>
+        </div>
+        <div class="metric">
+          <div class="num">24/7</div>
+          <div class="label">Agent monitoring across reports, schedules, quality, and customer signals</div>
+        </div>
+        <div class="metric">
+          <div class="num">0</div>
+          <div class="label">Value in AI that does not connect to operational decisions</div>
+        </div>
+        <div class="metric">
+          <div class="num">1</div>
+          <div class="label">Decision layer connecting signal to correction</div>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <h2>The pain is not hidden. It is delayed.</h2>
+      <p class="section-lead">
+        The most expensive problems in manufacturing rarely begin as emergencies. They begin as small signals inside ERP reports, dealer communications, scheduling friction, quality notes, delayed shipments, and spreadsheet workarounds. The failure is not always production. The failure is how long it takes leadership to see the pattern.
+      </p>
+
+      <div class="pain-grid">
+        <article class="pain-card">
+          <span class="tag">Pipeline Drag</span>
+          <h3>Dealer and customer signals arrive too late.</h3>
+          <p class="body-copy">By the time frustration reaches leadership, the operational issue has usually already affected delivery confidence, pricing pressure, and future demand.</p>
+        </article>
+        <article class="pain-card">
+          <span class="tag">Margin Leak</span>
+          <h3>Inventory drift hides inside normal reporting.</h3>
+          <p class="body-copy">Demand shifts, production timing, material availability, and order mix can quietly compress margin before anyone sees a clean executive signal.</p>
+        </article>
+        <article class="pain-card">
+          <span class="tag">Decision Latency</span>
+          <h3>Teams react after the window closes.</h3>
+          <p class="body-copy">Operational teams often know pieces of the truth. The CEO needs the connected version before it becomes an avoidable fire drill.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>The agentic AI use case that matters.</h2>
+      <p class="section-lead">
+        Not another chatbot. Not another dashboard. The use case is an agentic operational intelligence layer that watches the business for drift and turns fragmented data into executive-ready correction paths.
+      </p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="word">Signal</div>
+          <div class="small">ERP, orders, dealers, quality, schedules</div>
+        </div>
+        <div class="flow-step">
+          <div class="word">Aware</div>
+          <div class="small">Agent detects drift and pattern changes</div>
+        </div>
+        <div class="flow-step">
+          <div class="word">Decide</div>
+          <div class="small">Executive options with risk and confidence</div>
+        </div>
+        <div class="flow-step">
+          <div class="word">Correct</div>
+          <div class="small">Human-approved action path routed forward</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Where the agent would watch.</h2>
+      <div class="use-grid">
+        <article class="use-card">
+          <span class="tag">Forecasting</span>
+          <h3>Demand drift monitor</h3>
+          <p class="body-copy">Continuously compare quote activity, order mix, dealer conversations, seasonality, and historical demand to flag movement before the production plan feels it.</p>
+        </article>
+        <article class="use-card">
+          <span class="tag">Operations</span>
+          <h3>Production constraint radar</h3>
+          <p class="body-copy">Monitor scheduling friction, bottleneck indicators, delayed inputs, quality exceptions, and capacity stress so leaders see the constraint while it is still manageable.</p>
+        </article>
+        <article class="use-card">
+          <span class="tag">Revenue</span>
+          <h3>Dealer intelligence layer</h3>
+          <p class="body-copy">Capture recurring dealer concerns, quote objections, delivery friction, product requests, and lost-deal reasons as a structured executive signal.</p>
+        </article>
+        <article class="use-card">
+          <span class="tag">Quality</span>
+          <h3>Quality drift early warning</h3>
+          <p class="body-copy">Connect customer notes, returns, defects, internal QA findings, and shipment feedback into a single quality-risk view before reputation absorbs the cost.</p>
+        </article>
+        <article class="use-card">
+          <span class="tag">Finance</span>
+          <h3>Margin exposure agent</h3>
+          <p class="body-copy">Watch material costs, discounting, production timing, rework, freight, and order mix to identify where margin is being lost quietly.</p>
+        </article>
+        <article class="use-card">
+          <span class="tag">Leadership</span>
+          <h3>Executive correction brief</h3>
+          <p class="body-copy">Generate a weekly operator-grade brief showing what changed, why it matters, what action is recommended, and where human approval is required.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>AI adoption scorecard.</h2>
+      <div class="scoreboard">
+        <div class="score">
+          <div>
+            <div class="big">82</div>
+            <div class="small-score">Estimated opportunity index</div>
+          </div>
+        </div>
+        <div class="score-lines">
+          <div class="score-line"><span>Agentic AI Awareness</span><span>High</span></div>
+          <div class="score-line"><span>Manufacturing Visibility Need</span><span>Critical</span></div>
+          <div class="score-line"><span>Data Surface Potential</span><span>Strong</span></div>
+          <div class="score-line"><span>Decision Latency Exposure</span><span>High</span></div>
+          <div class="score-line"><span>Operator Adoption Risk</span><span>Manageable</span></div>
+          <div class="score-line"><span>Near-Term Pilot Fit</span><span>Excellent</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>What a CEO would actually fund.</h2>
+      <p class="section-lead">
+        A serious pilot should not start with “build us AI.” It should start with one executive question: where is the business losing time, visibility, trust, or margin because operational signals are not being converted into decisions fast enough?
+      </p>
+
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th>Pilot Area</th>
+            <th>Business Exposure</th>
+            <th>Agentic Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Demand Forecast Drift</td>
+            <td>Production plans lag real market movement.</td>
+            <td>Forward-looking demand risk brief with confidence levels and correction options.</td>
+          </tr>
+          <tr>
+            <td>Dealer Signal Capture</td>
+            <td>Customer-facing insights remain trapped in emails, calls, and field conversations.</td>
+            <td>Structured dealer intelligence summary by theme, urgency, account, and revenue risk.</td>
+          </tr>
+          <tr>
+            <td>Margin Leakage</td>
+            <td>Cost pressure hides across material, freight, rework, discounting, and order mix.</td>
+            <td>Margin exposure alerts with likely cause, affected area, and recommended action path.</td>
+          </tr>
+          <tr>
+            <td>Quality Drift</td>
+            <td>Small quality issues become brand and channel trust problems.</td>
+            <td>Early-warning quality intelligence tied to customer notes, QA exceptions, and returns.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Proof-of-work pilot path.</h2>
+      <div class="roi-grid">
+        <article class="roi-card">
+          <span class="tag">Phase 1</span>
+          <h3>Operational signal audit</h3>
+          <p class="body-copy">Map ERP, reporting, dealer communication, production, quality, and leadership review surfaces to identify where visibility breaks down.</p>
+        </article>
+        <article class="roi-card">
+          <span class="tag">Phase 2</span>
+          <h3>Agent prototype</h3>
+          <p class="body-copy">Build one governed agent workflow that converts fragmented operational signals into executive-ready recommendations.</p>
+        </article>
+        <article class="roi-card">
+          <span class="tag">Phase 3</span>
+          <h3>Executive readout</h3>
+          <p class="body-copy">Deliver a decision brief showing what the agent found, what it missed, what should be governed, and where ROI is most defensible.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>This is not AI theater. This is operational lift.</h2>
+      <p>
+        The next advantage in manufacturing will not come from having the most AI tools. It will come from compressing the distance between operational signal and executive correction.
+      </p>
+      <a class="button" href="mailto:moe.mcdonald@gmail.com?subject=Hans%20Discovery%20Operational%20Intelligence%20Brief">Start the Operational Intelligence Review</a>
+    </section>
+
+    <footer>
+      © McDonald 2026 · Epoch Frameworks LLC · Behavioral Intelligence Research · Agentic AI Discovery Brief · DACR License v2.6 · Findings visible · Mechanics proprietary
+    </footer>
+  </main>
+</body>
+</html>
